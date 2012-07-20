@@ -134,7 +134,7 @@
 
 (defun new-aref (ary args &key loc)
   (match ary
-    ((id-expr (id (pvar (name :self))))
+    ((var-expr (var (pvar (name :self))))
      (make-call-expr :name "[]" :args args :loc loc))
     (otherwise
      (make-call-expr :self ary :name "[]" :args args :loc loc))))
@@ -597,7 +597,7 @@
          ((:kDEFINED opt-nl arg)
           (make-defined-expr $3))
          ((arg :tEH arg :tCOLON arg)
-          (make-tern-expr $1 $3 $5 :loc (node-loc $1)))
+          (make-ternary-expr $1 $3 $5 :loc (node-loc $1)))
          ((primary)
           $1))
 
@@ -732,7 +732,7 @@
              ((:tLPAREN compstmt :tRPAREN)
               (match $2
                 (() (make-var-expr (make-pvar :nil) :loc $1))
-                (_  (make-block-expr $2 :loc $1))))
+                (_  (make-seq-expr $2 :loc $1))))
              ((primary-value :tCOLON2 :tCONSTANT)
               (make-var-expr (make-const (make-cpath-rel $1 $3))))
              ((:tCOLON3 :tCONSTANT)
@@ -1049,7 +1049,7 @@
                      (setf (slot-value *state* 'lex-strterm) $2)
                      (stack-state-lexpop (slot-value *state* 'cond))
                      (stack-state-lexpop (slot-value *state* 'cmdarg))
-                     (cons (make-block-expr $3) $1)))
+                     (cons (make-seq-expr $3) $1)))
 
     (string-content-e1 (()
                         (prog1 (slot-value *state* 'lex-strterm)
@@ -1197,7 +1197,7 @@
                 ((assocs trailer) $1)
                 ((args trailer)
                  (mapcar (lambda-match
-                           ((arg-value expr) expr)
+                           ((value-arg expr) expr)
                            (otherwise (error "invalid assoc")))
                          $1)))
 
@@ -1238,14 +1238,17 @@
 
     (none-block-pass (() ()))))
 
-(defun parse-from-stream (stream)
-  (let ((*state* (make-lexer (make-source-from-stream stream))))
-    (alt.yacc:parse-with-lexer *state* *parser*)))
+(defun parse-from-stream (stream &key (sexp t))
+  (let* ((*state* (make-lexer (make-source-from-stream stream)))
+         (ast (alt.yacc:parse-with-lexer *state* *parser*)))
+    (if sexp
+        (ast-to-sexp ast)
+        ast)))
 
-(defun parse-from-string (string)
+(defun parse-from-string (string &key (sexp t))
   (with-input-from-string (stream string)
-    (parse-from-stream stream)))
+    (parse-from-stream stream :sexp sexp)))
 
-(defun parse-from-file (filename)
+(defun parse-from-file (filename &key (sexp t))
   (with-open-file (stream filename)
-    (parse-from-stream stream)))
+    (parse-from-stream stream :sexp sexp)))

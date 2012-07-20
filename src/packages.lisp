@@ -8,7 +8,10 @@
                 #:required-argument
                 #:ensure-car
                 #:ensure-list
-                #:symbolicate))
+                #:symbolicate)
+  (:export #:expr-to-sexp
+           #:stmt-to-sexp
+           #:ast-to-sexp))
 
 (defpackage #:ruby-parser
   (:use #:cl
