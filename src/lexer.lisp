@@ -121,7 +121,8 @@
          :initform (make-stack-state))
    (tern :type stack-state
          :initform (make-stack-state))
-   (nest :initform 0)
+   (nest :type fixnum
+         :initform 0)
    (version :initarg :version
             :initform 19)
    (lex-state :type lex-state
@@ -142,7 +143,7 @@
 
 (defun heredoc (lexer)
   (declare #.standard-optimize-settings)
-  (block nil
+  (cl:block nil
     (with-slots (lex-strterm src string-buffer) lexer
       (with-source-shorthand src
         (with-match (simple-vector _ eos func last-line) lex-strterm
@@ -193,7 +194,7 @@
 
 (defun heredoc-identifier (lexer)
   (declare #.standard-optimize-settings)
-  (block nil
+  (cl:block nil
     (with-slots (lex-strterm src string-buffer) lexer
       (with-source-shorthand src
         (let ((line nil)
@@ -349,7 +350,7 @@
 
 (defun parse-string (lexer)
   (declare #.standard-optimize-settings)
-  (block nil
+  (cl:block nil
     (with-slots (nest lex-strterm src string-buffer lineno) lexer
       (with-source-shorthand src
         (with-match (simple-vector _ func term paren) lex-strterm
@@ -1105,7 +1106,7 @@
 
 (defun process-token (lexer token command-state)
   (declare #.standard-optimize-settings)
-  (block nil
+  (cl:block nil
     (with-slots (lex-state command-start cmdarg cond tern env) lexer
       (with-source-shorthand (lexer-src lexer)
         (when (and (ppcre:scan "^\\w" token)
