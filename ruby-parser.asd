@@ -1,11 +1,12 @@
 (asdf:defsystem :ruby-parser
-  :description "Ruby Parser"
-  :author "Tomohiro Matsuyama"
+  :description "Ruby Parser for Common Lisp"
+  :author "Tomohiro Matsuyama <tomo@cx4a.org>"
+  :license "LLGPL"
   :depends-on (:alexandria
                :iterate
                :anaphora
-               :optima
-               :yacc
+               :alt-match
+               :alt-yacc
                :cl-ppcre
                :closer-mop
                :parse-number)

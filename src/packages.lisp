@@ -1,5 +1,5 @@
 (defpackage :ruby-parser
-  (:use :cl :anaphora :iterate :optima)
+  (:use :cl :anaphora :iterate :alt.match)
   (:import-from :alexandria
                 #:once-only
                 #:required-argument

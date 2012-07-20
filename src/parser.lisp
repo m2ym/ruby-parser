@@ -5,7 +5,7 @@
           (iter (while (and (consp (car body))
                             (keywordp (caar body))))
                 (collect (pop body)))))
-    `(yacc:define-parser ,name
+    `(alt.yacc:define-parser ,name
        ,@options
        ,@(iter (for (name . rhss) in body)
                (for new-rhss =
