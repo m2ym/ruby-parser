@@ -4,7 +4,10 @@
                 #:once-only
                 #:required-argument
                 #:ensure-list
-                #:symbolicate))
+                #:symbolicate)
+  (:export #:parse-from-stream
+           #:parse-from-string
+           #:parse-from-file))
 
-(defpackage :ruby-parser.slots
+(defpackage :ruby-parser.ast
   (:use :cl))
