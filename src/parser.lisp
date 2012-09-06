@@ -5,7 +5,7 @@
           (iter (while (and (consp (car body))
                             (keywordp (caar body))))
                 (collect (pop body)))))
-    `(alt.yacc:define-parser ,name
+    `(lyacc:define-parser ,name
        ,@options
        ,@(iter (for (name . rhss) in body)
                (for new-rhss =
@@ -1240,7 +1240,7 @@
 
 (defun parse-from-stream (stream &key (sexp t))
   (let* ((*state* (make-lexer (make-source-from-stream stream)))
-         (ast (alt.yacc:parse-with-lexer *state* *parser*)))
+         (ast (lyacc:parse-with-lexer *state* *parser*)))
     (if sexp
         (ast-to-sexp ast)
         ast)))

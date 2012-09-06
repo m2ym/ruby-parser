@@ -2,7 +2,7 @@
   (:use #:cl
         #:anaphora
         #:iterate
-        #:alt.match)
+        #:optima)
   (:shadow #:block #:variable)
   (:import-from #:alexandria
                 #:required-argument
@@ -17,7 +17,7 @@
   (:use #:cl
         #:anaphora
         #:iterate
-        #:alt.match
+        #:optima
         #:ruby-parser.ast)
   (:shadow #:block #:variable)
   (:import-from #:alexandria

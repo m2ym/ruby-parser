@@ -5,8 +5,8 @@
   :depends-on (#:alexandria
                #:iterate
                #:anaphora
-               #:alt-match
-               #:alt-yacc
+               #:optima
+               #:lyacc
                #:cl-ppcre
                #:closer-mop
                #:parse-number)
